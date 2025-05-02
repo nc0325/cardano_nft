@@ -5,8 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "mint": "node mint.js"
+    "upload": "node upload.js",
+    "burn": "node burn.js",
+    "mint": "node mint.js",
+    "makenft": "node nftdata.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,8 @@
   },
   "homepage": "https://github.com/nc0325/cardano_nft#readme",
   "dependencies": {
-    "@meshsdk/core": "^1.9.0-beta-39"
+    "@meshsdk/core": "^1.9.0-beta-39",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0"
   }
 }

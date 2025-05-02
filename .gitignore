@@ -1,1 +1,7 @@
 node_modules
+/images/*
+/metajsons/*
+nft_data.json
+
+package-lock.json
+.env
