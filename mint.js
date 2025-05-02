@@ -104,7 +104,7 @@ async function mintBundleNFTs(nft_list) {
   const signedTx = await wallet.signTx(unsignedTx);
   const txHash = await wallet.submitTx(signedTx);
 
-  console.log("transactionhash", txHash);
+  console.log("\n\n------- NFT Bundle Minted: ", txHash, "  -------");
 }
 
 async function main() {
@@ -117,9 +117,7 @@ async function main() {
   
   for (let i = 0; i < filterd_data.length; i += BUNDLE_SIZE) {
     const nft_list = filterd_data.slice(i, i + BUNDLE_SIZE);
-    console.log("Minting bundle from", i, "to", i + BUNDLE_SIZE);
     console.log(`Minting bundle ${Math.floor(i/BUNDLE_SIZE) + 1} of ${Math.ceil(filterd_data.length/BUNDLE_SIZE)}`);
-    console.log("NFTs in bundle:", nft_list.length);
     try {
       await mintBundleNFTs(nft_list);
       // Wait longer between transactions to ensure chain state is updated
@@ -130,7 +128,8 @@ async function main() {
           nft.minted = true;
         }
         return nft;
-      });
+      });  
+      fs.writeFileSync("./nft_data.json", JSON.stringify(updated_nft_data, null, 2));
       await new Promise(resolve => setTimeout(resolve, WAITING_TIME_BETWEEN_TX * 1000));
     } catch (error) {
       console.error(`Error minting bundle: ${error}`);
@@ -138,7 +137,6 @@ async function main() {
       break;
     }
   }
-  fs.writeFileSync("./nft_data.json", JSON.stringify(updated_nft_data, null, 2));
   const final_balance = await wallet.getLovelace();
   console.log("Final balance:", final_balance);
   console.log("Difference in ada:", (final_balance - initial_balance) / 1000000);
